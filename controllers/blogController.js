@@ -99,3 +99,19 @@ export const deleteBlog = async (req,res,next) => {
     }
     return res.status(200).json({message:"successfully delete"});
 };
+
+export const getbyuserid = async (req,res,next) => {
+    const id = req.params.id;
+    let userBlog;
+
+    try{
+        userBlog = await User.findById(id).populate('blogs');
+        
+    }catch(err){
+      return  console.log(err);
+    }
+    if (!userBlog){
+        return res.status(404).json({message:"no blog found"})
+    }
+    return res.status(200).json({blogs:userBlog});
+};
